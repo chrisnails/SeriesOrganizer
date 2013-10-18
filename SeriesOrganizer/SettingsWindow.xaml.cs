@@ -12,9 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-using SeriesOrganizerWPF.Properties;
+using SeriesOrganizer.Properties;
 
-namespace SeriesOrganizerWPF
+namespace SeriesOrganizer
 {
     /// <summary>
     /// Interaktionslogik für Window1.xaml

@@ -1,4 +1,4 @@
-﻿<Window x:Class="SeriesOrganizerWPF.SettingsWindow"
+﻿<Window x:Class="SeriesOrganizer.SettingsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="SettingsWindow" Height="219" Width="308" ShowInTaskbar="False" WindowStartupLocation="CenterOwner" BorderThickness="1" WindowStyle="None" AllowsTransparency="True" BorderBrush="Black">

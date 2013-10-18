@@ -17,10 +17,10 @@ using System.ComponentModel;
 using System.IO;
 using System.Text.RegularExpressions;
 
-using SeriesOrganizerWPF.Properties;
-using SeriesOrganizerWPF.Localization;
+using SeriesOrganizer.Properties;
+using SeriesOrganizer.Localization;
 
-namespace SeriesOrganizerWPF
+namespace SeriesOrganizer
 {
     /// <summary>
     /// Interaktionslogik für MainWindow.xaml
