@@ -57,7 +57,7 @@ namespace SeriesOrganizer
 
         private void Form1_Load(object sender, EventArgs e)
         {
-             fillView();
+            fillView();
         }
 
 
@@ -98,7 +98,7 @@ namespace SeriesOrganizer
 
             //Disable the file system watcher, so the view isn't filled multiple times
             fileSystemWatcher1.EnableRaisingEvents = false;
-            
+
             foreach (String dirName in Directory.GetDirectories(baseDir))
             {
                 Match match = Regex.Match(Path.GetFileName(dirName), @"(S[0-9][0-9]E[0-9][0-9])", RegexOptions.IgnoreCase);
@@ -131,8 +131,8 @@ namespace SeriesOrganizer
             //Re-Enable The fileSystemWatcher
             fileSystemWatcher1.EnableRaisingEvents = true;
         }
-        
-       
+
+
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -143,6 +143,18 @@ namespace SeriesOrganizer
         {
             SettingsForm settings = new SettingsForm();
             settings.ShowDialog();
+        }
+
+        #region BackgroundWorker for Repository Analysis
+        /// <summary>
+        /// BackgorundWorker and Events für Repository Analysis
+        /// </summary>
+
+        private void analyzeRepositoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            toolStripStatusLabel1.Text = strings.analyzingRepository;
+            toolStripProgressBar1.Visible = true;
+            backgroundWorker1.RunWorkerAsync();
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
@@ -175,19 +187,12 @@ namespace SeriesOrganizer
             }
             MessageBox.Show(errors);
             worker.ReportProgress(101);
-            
-        }
 
-        private void analyzeRepositoryToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            toolStripStatusLabel1.Text = strings.analyzingRepository;
-            toolStripProgressBar1.Visible = true;
-            backgroundWorker1.RunWorkerAsync();
         }
 
         private void bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            
+
             this.toolStripProgressBar1.Value = e.ProgressPercentage;
             if (this.toolStripProgressBar1.Value == 101)
             {
@@ -195,6 +200,8 @@ namespace SeriesOrganizer
                 this.toolStripStatusLabel1.Text = strings.analysisComplete;
             }
         }
+
+        #endregion
 
         private void renameSelectedEpisode()
         {

@@ -15,14 +15,14 @@ namespace SeriesOrganizer
 {
     class SeriesOrganizerEpisode
     {
-     
+
         private string fileName;
         private string seriesname;
         private int season;
         private int episode;
         private string suggestedfolder;
         private string suggestedFilename;
-       
+
 
         public int Season
         {
@@ -37,7 +37,7 @@ namespace SeriesOrganizer
             get
             {
                 return episode;
-            }        
+            }
         }
 
         public string SuggestedFolder
@@ -71,7 +71,7 @@ namespace SeriesOrganizer
                 return suggestedFilename;
             }
         }
-        
+
         public SeriesOrganizerEpisode(string fileName, bool ignoreSeasonOne = false)
         {
             this.fileName = fileName;
@@ -81,7 +81,7 @@ namespace SeriesOrganizer
             Match match = Regex.Match(Path.GetFileName(fileName), @"(S[0-9][0-9]E[0-9][0-9])", RegexOptions.IgnoreCase);
 
 
-            
+
             //Name, Season and Episode
             //************************
             string key = "";
@@ -104,7 +104,7 @@ namespace SeriesOrganizer
                             seriesname = seriesname.Substring(0, seriesname.Length - 4);
                         }
                     }
-                } 
+                }
 
                 seriesname = seriesname.Trim();
 
@@ -113,7 +113,7 @@ namespace SeriesOrganizer
                 seriesname = myTI.ToTitleCase(seriesname);
 
             }
-            
+
 
             //Suggested Folder
             //****************
@@ -121,7 +121,7 @@ namespace SeriesOrganizer
 
             if (ignoreSeasonOne)
             {
-                if(Directory.Exists(Settings.Default.repositoryDir + seriesname + "\\"+ seriesname+" Season 2"))
+                if (Directory.Exists(Settings.Default.repositoryDir + seriesname + "\\" + seriesname + " Season 2"))
                 {
                     suggestedfolder = Settings.Default.baseDir + "Serien\\" + seriesname + "\\" + seriesname + " Season " + season;
                 }
@@ -143,19 +143,19 @@ namespace SeriesOrganizer
             }
 
 
-           
+
 
             //Suggested Filename
             //******************
             suggestedFilename = seriesname + " " + key + fileName.Substring(fileName.Length - 4);
 
-          
+
         }
 
         public static bool IsSeriesEpisode(string fileName)
         {
-            string[] fileFormats = new string[3] { ".mkv" , ".avi", ".TS"};
-            if(fileFormats.Contains(Path.GetExtension(fileName)))
+            string[] fileFormats = new string[3] { ".mkv", ".avi", ".TS" };
+            if (fileFormats.Contains(Path.GetExtension(fileName)))
             {
                 return true;
             }
