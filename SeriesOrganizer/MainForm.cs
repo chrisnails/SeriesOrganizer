@@ -61,28 +61,7 @@ namespace SeriesOrganizer
         }
 
 
-        private void moveSelectedEpisodeToSuggestedFolder()
-        {
-            if (listView1.SelectedItems.Count == 1)
-            {
-                foreach (ListViewItem item in listView1.SelectedItems)
-                {
-                    try
-                    {
-                        Directory.Move(baseDir + item.SubItems[0].Text, item.SubItems[4].Text + "\\" + Path.GetFileName(item.SubItems[0].Text));
-                        // MessageBox.Show(item.SubItems[0].Text + "\n\n ----->\n\n " + item.SubItems[4].Text);
-                    }
-                    catch (DirectoryNotFoundException)
-                    {
-                        if (MessageBox.Show(strings.directoryMissingCreate, strings.createDirectory, MessageBoxButtons.YesNo) == DialogResult.Yes)
-                        {
-                            Directory.CreateDirectory(item.SubItems[4].Text);
-                        }
-                    }
-                    //   fillView(); update is now handled by the file system watcher
-                }
-            }
-        }
+
 
 
 

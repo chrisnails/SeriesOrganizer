@@ -54,7 +54,6 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.contextMenuStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fileSystemWatcher1)).BeginInit();
@@ -303,7 +302,6 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem renameFileToolStripMenuItem;
-        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }
 
