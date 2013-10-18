@@ -13,15 +13,13 @@ using System.Windows.Forms;
 using System.IO;
 using System.Text.RegularExpressions;
 using SeriesOrganizer.Properties;
-
+using SeriesOrganizer.Localization;
 
 
 namespace SeriesOrganizer
 {
     public partial class MainForm : Form
     {
-
-
         private string baseDir;
         private string repositoryDir;
 
@@ -54,6 +52,7 @@ namespace SeriesOrganizer
                 }
             }
             listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+            this.toolStripStatusLabel1.Text = listView1.Items.Count + strings.countItemsFound;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -75,7 +74,7 @@ namespace SeriesOrganizer
                     }
                     catch (DirectoryNotFoundException)
                     {
-                        if (MessageBox.Show("Verzeichnis nicht vorhanden, soll das Verzeichnis angelegt werden?", "Verzeichnis erstellen", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        if (MessageBox.Show(strings.directoryMissingCreate, strings.createDirectory, MessageBoxButtons.YesNo) == DialogResult.Yes)
                         {
                             Directory.CreateDirectory(item.SubItems[4].Text);
                         }
@@ -132,12 +131,8 @@ namespace SeriesOrganizer
             //Re-Enable The fileSystemWatcher
             fileSystemWatcher1.EnableRaisingEvents = true;
         }
-
-        private void analyzeRepositoryToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            toolStripStatusLabel1.Text = "analyzing repository";
-            backgroundWorker1.RunWorkerAsync();
-        }
+        
+       
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -179,11 +174,26 @@ namespace SeriesOrganizer
 
             }
             MessageBox.Show(errors);
+            worker.ReportProgress(101);
+            
+        }
+
+        private void analyzeRepositoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            toolStripStatusLabel1.Text = strings.analyzingRepository;
+            toolStripProgressBar1.Visible = true;
+            backgroundWorker1.RunWorkerAsync();
         }
 
         private void bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
+            
             this.toolStripProgressBar1.Value = e.ProgressPercentage;
+            if (this.toolStripProgressBar1.Value == 101)
+            {
+                this.toolStripProgressBar1.Visible = false;
+                this.toolStripStatusLabel1.Text = strings.analysisComplete;
+            }
         }
 
         private void renameSelectedEpisode()
@@ -195,7 +205,7 @@ namespace SeriesOrganizer
                 {
                     try
                     {
-                        Directory.Move(baseDir + item.SubItems[0].Text, baseDir + this.showRenameDialog("Dateiname", "Dateiname", item.SubItems[0].Text));
+                        Directory.Move(baseDir + item.SubItems[0].Text, baseDir + this.showRenameDialog(strings.filename, strings.filename, item.SubItems[0].Text));
                     }
                     catch (Exception e)
                     {
