@@ -21,7 +21,7 @@ namespace SeriesOrganizer
     public partial class MainForm : Form
     {
 
-   
+
         private string baseDir;
         private string repositoryDir;
 
@@ -37,7 +37,6 @@ namespace SeriesOrganizer
 
         private void fillView()
         {
-          
             listView1.Items.Clear();
             foreach (String fileName in Directory.GetFiles(baseDir))
             {
@@ -45,33 +44,33 @@ namespace SeriesOrganizer
                 {
 
                     SeriesOrganizerEpisode file = new SeriesOrganizerEpisode(fileName);
-                    
+
                     //Insert into View
-                    string[] row = {file.FileName, file.SeriesName, file.Season.ToString(), file.Episode.ToString(), file.SuggestedFolder, file.SuggestedFileName };
+                    string[] row = { file.FileName, file.SeriesName, file.Season.ToString(), file.Episode.ToString(), file.SuggestedFolder, file.SuggestedFileName };
                     var listViewItem = new ListViewItem(row);
 
                     listView1.Items.Add(listViewItem);
 
                 }
             }
+            listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            listView1.Activation = ItemActivation.TwoClick;
-            fillView();
-
+             fillView();
         }
-        private void listView1_DoubleClick(object sender, EventArgs e)
+
+
+        private void moveSelectedEpisodeToSuggestedFolder()
         {
-            // user clicked an item of listview control
             if (listView1.SelectedItems.Count == 1)
             {
                 foreach (ListViewItem item in listView1.SelectedItems)
                 {
                     try
                     {
-                        Directory.Move(baseDir + item.SubItems[0].Text,  item.SubItems[4].Text + "\\" + Path.GetFileName(item.SubItems[0].Text));
+                        Directory.Move(baseDir + item.SubItems[0].Text, item.SubItems[4].Text + "\\" + Path.GetFileName(item.SubItems[0].Text));
                         // MessageBox.Show(item.SubItems[0].Text + "\n\n ----->\n\n " + item.SubItems[4].Text);
                     }
                     catch (DirectoryNotFoundException)
@@ -81,10 +80,12 @@ namespace SeriesOrganizer
                             Directory.CreateDirectory(item.SubItems[4].Text);
                         }
                     }
-                 //   fillView(); nich
+                    //   fillView(); update is now handled by the file system watcher
                 }
             }
         }
+
+
 
         private void fileSystemWatcher1_Changed(object sender, FileSystemEventArgs e)
         {
@@ -94,29 +95,38 @@ namespace SeriesOrganizer
         private void downloadsEntpackenToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+            string notAccessable = "";
+
             //Disable the file system watcher, so the view isn't filled multiple times
             fileSystemWatcher1.EnableRaisingEvents = false;
-
-   
+            
             foreach (String dirName in Directory.GetDirectories(baseDir))
             {
                 Match match = Regex.Match(Path.GetFileName(dirName), @"(S[0-9][0-9]E[0-9][0-9])", RegexOptions.IgnoreCase);
                 if (match.Success)
                 {
-                    foreach(String fileName in Directory.GetFiles(dirName))
+                    foreach (String fileName in Directory.GetFiles(dirName))
                     {
-                        
+
                         if (SeriesOrganizerEpisode.IsSeriesEpisode(fileName))
                         {
-                            Directory.Move(fileName, baseDir + Path.GetFileName(fileName));
-                            Microsoft.VisualBasic.FileIO.FileSystem.DeleteDirectory(dirName, 
-                                Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs,
-                                Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
+                            try
+                            {
+                                Directory.Move(fileName, baseDir + Path.GetFileName(fileName));
+                                Microsoft.VisualBasic.FileIO.FileSystem.DeleteDirectory(dirName,
+                                    Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs,
+                                    Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
+                            }
+                            catch (IOException)
+                            {
+                                notAccessable += fileName + "\n";
+                            }
                         }
-                        
                     }
                 }
             }
+            if (notAccessable != "")
+                MessageBox.Show(notAccessable);
             fillView();
 
             //Re-Enable The fileSystemWatcher
@@ -158,15 +168,15 @@ namespace SeriesOrganizer
                     if (fileName != file.SuggestedFolder + "\\" + file.FileName)
                     {
                         errors += fileName + "\n";
-                    } 
+                    }
 
                 }
                 countProgress++;
 
-                double percent = (100 / (double)anzahl)*countProgress;
-  
+                double percent = (100 / (double)anzahl) * countProgress;
+
                 worker.ReportProgress((int)Math.Round(percent));
-                
+
             }
             MessageBox.Show(errors);
         }
@@ -175,6 +185,61 @@ namespace SeriesOrganizer
         {
             this.toolStripProgressBar1.Value = e.ProgressPercentage;
         }
-      
+
+        private void renameSelectedEpisode()
+        {
+
+            if (listView1.SelectedItems.Count == 1)
+            {
+                foreach (ListViewItem item in listView1.SelectedItems)
+                {
+                    try
+                    {
+                        Directory.Move(baseDir + item.SubItems[0].Text, baseDir + this.showRenameDialog("Dateiname", "Dateiname", item.SubItems[0].Text));
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.ToString());
+                    }
+
+                }
+            }
+        }
+
+        private void testToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.moveSelectedEpisodeToSuggestedFolder();
+        }
+
+        private void renameFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.renameSelectedEpisode();
+        }
+
+        private void listView1_DoubleClick(object sender, EventArgs e)
+        {
+            this.moveSelectedEpisodeToSuggestedFolder();
+        }
+
+        public string showRenameDialog(string text, string caption, string currentValue = "")
+        {
+            Form prompt = new Form();
+            prompt.Width = 500;
+            prompt.Height = 150;
+            prompt.Text = caption;
+            prompt.StartPosition = FormStartPosition.CenterParent;
+            Label textLabel = new Label() { Left = 50, Top = 20, Text = text };
+            TextBox textBox = new TextBox() { Left = 50, Top = 50, Width = 400 };
+            Button confirmation = new Button() { Text = "Ok", Left = 350, Width = 100, Top = 70 };
+            confirmation.Click += (sender, e) => { prompt.Close(); };
+            prompt.Controls.Add(confirmation);
+            prompt.Controls.Add(textLabel);
+            prompt.Controls.Add(textBox);
+            textBox.Text = currentValue;
+            prompt.ShowDialog();
+            return textBox.Text;
+        }
+
+
     }
 }
