@@ -82,6 +82,14 @@ namespace SeriesOrganizer
             }
         }
 
+        public string fullFileString
+        {
+            get
+            {
+                return fileName;
+            }
+        }
+
         public SeriesOrganizerEpisode(string fileName, bool ignoreSeasonOne = false)
         {
             this.fileName = fileName;
@@ -164,7 +172,7 @@ namespace SeriesOrganizer
 
         public static bool IsSeriesEpisode(string fileName)
         {
-            string[] fileFormats = new string[3] { ".mkv", ".avi", ".TS" };
+            string[] fileFormats = new string[4] { ".mkv", ".avi", ".TS",".mp4" };
             if (fileFormats.Contains(Path.GetExtension(fileName)))
             {
                 return true;

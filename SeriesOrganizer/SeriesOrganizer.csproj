@@ -73,6 +73,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AnalysisReport.xaml.cs">
+      <DependentUpon>AnalysisReport.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Localization\strings.Designer.cs">
       <DependentUpon>strings.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -82,6 +85,10 @@
     <Compile Include="SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="AnalysisReport.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

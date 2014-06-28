@@ -10,15 +10,17 @@
         </ContextMenu>
     </Window.Resources>
     <Grid >
-        <Menu  Height="26" VerticalAlignment="Top" MouseDown="Window_MouseDown">
-            <Button Content="Exit" Click="Button_Click_3" />
-            <Button Content="Downloads Entpacken" Width="135" Click="Button_Click"/>
+        <Menu  Height="26" VerticalAlignment="Top">
+            <Button Content="Exit" Click="exitButton_Click" />
+            <Button Content="Downloads Entpacken" Width="135" Click="unpackButton_Click"/>
+            <Button Content="Downloads Entpacken &amp; Close" Width="190" Click="unpackButtonClose_Click"/>
             <Button Content="Analyze Repository" Width="152" Click="analyzeRepositoryToolStripMenuItem_Click"/>
-            <Button Content="Settings" Width="177" Click="Button_Click_1"/>
-            <Button Content="Undo Move" Width="197" Click="Button_Click_2"/>
+            <Button Content="Settings" Width="177" Click="settingsButton_Click"/>
+            <Button Content="Undo Move" Width="197" Click="undoMoveButton_Click"/>
+            <TextBox x:Name="searchField" Height="23" TextWrapping="Wrap" Width="120" KeyDown="TextBox_KeyDown" TextChanged="TextBox_TextChanged"/>
         </Menu>
         
-        <ListView x:Name="listView1" Margin="10,36,10,32">
+        <ListView x:Name="listView1" Margin="10,36,10,32" KeyDown="listView1_KeyDown">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Filename" DisplayMemberBinding="{Binding FileName}" />

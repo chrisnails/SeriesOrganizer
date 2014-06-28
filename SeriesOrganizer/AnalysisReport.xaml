@@ -1,0 +1,29 @@
+﻿<Window x:Class="SeriesOrganizer.AnalysisReport"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="AnalysisReport" Height="433" Width="801">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="395*"/>
+            <ColumnDefinition Width="398*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100*"/>
+            <RowDefinition Height="101*"/>
+        </Grid.RowDefinitions>
+        <ListView x:Name="analysisView" Margin="10,48,10,10" Grid.RowSpan="2" Grid.ColumnSpan="2">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Filename" DisplayMemberBinding="{Binding FileName}" />
+                    <GridViewColumn Header="name" DisplayMemberBinding="{Binding SeriesName}"/>
+                    <GridViewColumn Header="Seaosn" DisplayMemberBinding="{Binding Season}"/>
+                    <GridViewColumn Header="Episode" DisplayMemberBinding="{Binding Episode}"/>
+                    <GridViewColumn Header="suggestedFodler" DisplayMemberBinding="{Binding SuggestedFolder}"/>
+                    <GridViewColumn Header="suggestedFilename" DisplayMemberBinding="{Binding SuggestedFileName}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button x:Name="startAnalysis" Content="Start" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Click="startAnalysis_Click"/>
+
+    </Grid>
+</Window>
