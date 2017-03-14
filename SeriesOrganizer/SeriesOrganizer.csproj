@@ -145,6 +145,12 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:\Users\Chris Nails\Downloads\Per-Monitor Aware WPF Sample\C# and C++\NativeHelpers\NativeHelpers.vcxproj">
+      <Project>{938e65d0-ec9c-4181-87ca-a43d4747610d}</Project>
+      <Name>NativeHelpers</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

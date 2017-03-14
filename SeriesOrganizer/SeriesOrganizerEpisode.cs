@@ -113,7 +113,7 @@ namespace SeriesOrganizer
 
                 seriesname = seriesname.Trim();
 
-                if (seriesname.Length > 4) // For Titles like "Mom"
+                if (seriesname.Length > 4) // For Titles like "Mom" becouse i cut 4 caracters for the extension later
                 {
                     for (int j = 2000; j < 2020; j++)
                     {

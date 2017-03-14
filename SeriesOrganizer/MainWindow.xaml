@@ -1,9 +1,8 @@
-﻿<Window x:Class="SeriesOrganizer.MainWindow"
+﻿<src:PerMonitorDPIWindow x:Class="SeriesOrganizer.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="860" Width="1461"
-        
-        >
+        xmlns:src="clr-namespace:NativeHelpers;assembly=NativeHelpers"
+        Title="MainWindow" Height="860" Width="1461" DPIChanged="PerMonitorDPIWindow_DPIChanged" SizeChanged="PerMonitorDPIWindow_SizeChanged" LayoutUpdated="PerMonitorDPIWindow_LayoutUpdated">
     <Window.Resources>
         <ContextMenu x:Key="EpsodeContextMenu">
             <MenuItem Header="Move Episode (Double Click)" Click="listView1_MouseDoubleClick" />
@@ -38,6 +37,7 @@
             <Label x:Name="toolStripStatusLabel1" Content="Label" Height="22" FontSize="8"/>
             <ProgressBar x:Name="toolStripProgressBar1" Height="12" Width="227" Maximum="101"/>
         </StatusBar>
+        <Label x:Name="DPILabel" Content="Label" HorizontalAlignment="Left" Margin="1298,-5,0,0" VerticalAlignment="Top" RenderTransformOrigin="2.797,0.75"/>
     </Grid>
     
-</Window>
+</src:PerMonitorDPIWindow>

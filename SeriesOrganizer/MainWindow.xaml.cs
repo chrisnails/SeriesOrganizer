@@ -20,12 +20,14 @@ using System.Text.RegularExpressions;
 using SeriesOrganizer.Properties;
 using SeriesOrganizer.Localization;
 
+using NativeHelpers;
+
 namespace SeriesOrganizer
 {
     /// <summary>
     /// Interaktionslogik für MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : PerMonitorDPIWindow
     {
 
         private struct EpisodeMove
@@ -52,6 +54,7 @@ namespace SeriesOrganizer
 
         public MainWindow()
         {
+            
             InitializeComponent();
             baseDir = Settings.Default.baseDir;
             repositoryDir = Settings.Default.repositoryDir;
@@ -286,5 +289,32 @@ namespace SeriesOrganizer
 
         #endregion
 
+
+        #region DPIScaling
+
+        public void UpdateDPIText()
+        {
+            this.DPILabel.Content = this.CurrentDPI;
+        }
+
+        private void PerMonitorDPIWindow_LayoutUpdated(object sender, EventArgs e)
+        {
+            UpdateDPIText();
+
+        }
+
+        private void PerMonitorDPIWindow_DPIChanged(object sender, EventArgs e)
+        {
+
+            UpdateDPIText();
+        }
+
+        private void PerMonitorDPIWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            UpdateDPIText();
+
+        }
+
+        #endregion
     }
 }
